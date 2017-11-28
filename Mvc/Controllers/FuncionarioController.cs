@@ -166,24 +166,45 @@ namespace Mvc.Controllers
 
                     //OBS: Como todos os usuarios efetuam todas as açoes, não é necessario fazer uma validação de quem esta atualizando a tabela 
 
-                    //Atualiza as informacoes do funcionario selecionado na tabela Funcionario
-                    HttpResponseMessage response = GlobalVariables.WebApiClient.PutAsJsonAsync("Funcionario/" + func_.Id, func_).Result;
-                    //Pega as informacoes na tabela Funcionario_Departamento que possuem 
-                    //o id do funcionario sendo atualizado e os deleta para criar um novo com os valores atualizados
-                    for (int i = 0; i < depComFunc.Count; i++)
+                    //Verifica se já existe instancia na tabela com o mesmo login
+
+                    HttpResponseMessage responseAllFunc = GlobalVariables.WebApiClient.GetAsync("Funcionario").Result;
+                    IEnumerable<mvcFuncionarioModel> allFunc = responseAllFunc.Content.ReadAsAsync<IEnumerable<mvcFuncionarioModel>>().Result;
+
+                    bool verificadorCreate = true;
+
+                    foreach (var funcAux in allFunc)
                     {
-                        HttpResponseMessage responseDelete = GlobalVariables.WebApiClient.DeleteAsync("Funcionario_Departamento/" + depComFunc[i].id.ToString()).Result;
+                        if (funcAux.Login == func_.Login)
+                        {
+                            verificadorCreate = false;
+                        }
+                    }
+
+                    //Se VerificadorCreate == false, significa que já existe um funcionario com o login registrado
+                    if (verificadorCreate == false)
+                    {
+                        TempData["FailMessage"] = "Não foi possível atualizar o usuário! Um funcionário já está usando esse Login!";
 
                     }
-                    for (int i = 0; i < depValues2.Length; i++)
+                    else
                     {
-                        funcDep_.DepartamentoID = Convert.ToInt32(depValues2[i]);
-                        HttpResponseMessage responseDep = GlobalVariables.WebApiClient.PostAsJsonAsync("Funcionario_Departamento", funcDep_).Result;
+                        //Atualiza as informacoes do funcionario selecionado na tabela Funcionario
+                        HttpResponseMessage response = GlobalVariables.WebApiClient.PutAsJsonAsync("Funcionario/" + func_.Id, func_).Result;
+                        //Pega as informacoes na tabela Funcionario_Departamento que possuem 
+                        //o id do funcionario sendo atualizado e os deleta para criar um novo com os valores atualizados
+                        for (int i = 0; i < depComFunc.Count; i++)
+                        {
+                            HttpResponseMessage responseDelete = GlobalVariables.WebApiClient.DeleteAsync("Funcionario_Departamento/" + depComFunc[i].id.ToString()).Result;
+
+                        }
+                        for (int i = 0; i < depValues2.Length; i++)
+                        {
+                            funcDep_.DepartamentoID = Convert.ToInt32(depValues2[i]);
+                            HttpResponseMessage responseDep = GlobalVariables.WebApiClient.PostAsJsonAsync("Funcionario_Departamento", funcDep_).Result;
+                        }
+                        TempData["SuccessMessage"] = "Atualizado com sucesso!";
                     }
-
-
-
-                    TempData["SuccessMessage"] = "Atualizado com sucesso!";
                 }
             }
             return RedirectToAction("Index");
