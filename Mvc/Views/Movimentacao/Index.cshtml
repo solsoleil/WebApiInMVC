@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Mvc.Models.MvcMovimentacaoModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br/>
+
+<p>
+    <a href="@Url.Action("AddOrEdit","Movimentacao")" class="btn btn-default"><i class="fa fa-plus"></i> Definir Movimentação</a>
+</p>
+
+<div>
+    <input type="text" name="search" id="search" class="form-control" placeholder="Procurar na tabela..."/>
+    <br/>
+</div>
+
+<table class="table table-striped" id="movimentacao_table">
+    <thead class="table-heading" >
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FuncionarioID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor)
+            </th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FuncionarioID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descricao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Valor)
+        </td>
+        <td>
+            <a href="@Url.Action("AddOrEdit", "Movimentacao", new { id = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Editar</a>
+            <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Deletar</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            $('#search').keyup(function () {
+                search_table($(this).val());
+            });
+        });
+
+        function search_table(value) {
+            $('#movimentacao_table tr').each(function () {
+                var found = 'false';
+                $(this).each(function () {
+                    if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    {
+                        found = 'true';
+                    }
+                });
+                if (found == 'true')
+                {
+                    $(this).show();
+                }
+                else
+                {
+                    $(this).hide();
+                }
+            });
+        }
+
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var failMessage = '@TempData["FailMessage"]';
+            if (successMessage != '')
+            {
+                alertify.success(successMessage);
+            }
+            if (failMessage != '')
+            {
+                alertify.alert(failMessage);
+            }
+        })
+
+        function Delete(id)
+        {
+            alertify.confirm('LanLink Confirmation', 'Tem certeza que quer deletar essa movimentação?', function () {
+                window.location.href = '@Url.Action("Delete","Movimentacao")/' + id;
+            }, null);
+        }
+
+    </script>
+    
+    }

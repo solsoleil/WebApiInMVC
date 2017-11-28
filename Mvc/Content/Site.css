@@ -1,0 +1,120 @@
+﻿body {
+    background-color:#fff;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 340px;
+}
+
+.field-validation-error{
+    color: #b94a48;
+    font-size: 18px;
+}
+
+.field-validation-valid{
+    display:none;
+}
+
+input.input-validation-error{
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error
+{
+    border: 0 none;
+}
+
+.validation-sumary-errors
+{
+    color: #b94a48;
+}
+
+.validation-sumary-valid{
+    display: none;
+}
+
+input, textarea
+{
+    display: block;
+    height: 100%;
+    padding: 5px 10px;
+    background:none;
+    background-image: none;
+    border: 1px solid #a0b3b0;
+    color: #000;
+    border-radius: 0;
+    transition: border-color .25s ease, box-shadow .25 ease;
+}
+
+.button {
+    border: 1px solid #fff;
+    outline: none;
+    border-radius: 0;
+    padding: 10px 10px;
+    font-weight: 400;
+    background: #f8f8f8;
+    color: #000;
+    -webkit-appearance: none;
+    box-shadow: 0 1px 5px 1px rgba(19,35,47,0.3);
+}
+
+.button:hover, .button:focus
+{
+    color:#fff !important;
+}
+
+.form-body
+{
+    background: #fff;
+    padding: 20px 20px;
+    max-width: 600px;
+    width:400px;
+    margin:30px auto;
+    box-shadow: 0 4px 10px 4px rgba(19,35,47,0.3);
+}
+
+body
+{
+    background: #fff;
+}
+
+label{
+    color: #000;
+    font-size: 16px;
+}
+
+.form-body input, textarea
+{
+    font-size: 20px;
+}
+
+textarea:focus, input:focus{
+    outline : none;
+}
+
+.table-heading {
+    background-color: #6f7c80;
+    color: white;
+}
+
+.add-new
+{
+    background-color:#1ab188;
+}

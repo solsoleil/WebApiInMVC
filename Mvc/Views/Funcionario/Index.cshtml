@@ -1,0 +1,74 @@
+﻿@model Mvc.ViewModels.FuncionarioIndexData
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br/>
+
+<p>
+    <a href="@Url.Action("AddOrEdit","Funcionario")" class="btn btn-default"><i class="fa fa-plus"></i> Criar novo funcionário</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                Id do funcionario
+            </th>
+            <th>
+                Nome do Funcionario
+            </th>
+            <th>
+                Login
+            </th>
+            <th>
+                Ações
+            </th>
+        </tr>
+    </thead>
+
+@foreach (var item in Model.Funcionarios) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Login)
+        </td>
+        <td>
+            <a href="@Url.Action("AddOrEdit", "Funcionario", new { id  = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Editar</a>
+            <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Deletar</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            var failMessage = '@TempData["FailMessage"]';
+            if (successMessage != '')
+            {
+                alertify.success(successMessage);
+            }
+            if (failMessage != '')
+            {
+                alertify.alert(failMessage);
+            }
+        });
+
+        function Delete(id)
+        {
+            alertify.confirm('Lanlink confirmation', 'Tem certeza que gostaria de deletar esse funcionário?', function () {
+                window.location.href = '@Url.Action("Delete","Funcionario")/' + id;
+            }, null);
+        }
+    </script>
+    }

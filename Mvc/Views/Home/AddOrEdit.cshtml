@@ -1,0 +1,53 @@
+﻿@model Mvc.ViewModels.FuncionarioIndexData
+@{
+    ViewBag.Title = "AddOrEdit";
+}
+
+<div class="form-body" align="center">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.FuncionarioSelecionado.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FuncionarioSelecionado.Nome)
+            @Html.EditorFor(model => model.FuncionarioSelecionado.Nome)
+            @Html.ValidationMessageFor(model => model.FuncionarioSelecionado.Nome)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FuncionarioSelecionado.Login)
+            @Html.EditorFor(model => model.FuncionarioSelecionado.Login)
+            @Html.ValidationMessageFor(model => model.FuncionarioSelecionado.Login)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FuncionarioSelecionado.Senha)
+            @Html.PasswordFor(model => model.FuncionarioSelecionado.Senha)
+            @Html.ValidationMessageFor(model => model.FuncionarioSelecionado.Senha)
+        </div>
+
+        <div class="form-group">
+            <label>Departamentos</label>
+        </div>
+        <div class="form-group">
+            <select style="background-color:#ffffff;
+                    color:#000;
+                    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                    min-width: 260px;
+                    text-align:center;" name="departamentos" id="depSelected" multiple>
+                @foreach (var dep in Model.Departamentos)
+                {
+                    <option value="@dep.Id">@dep.Nome</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group" align="center">
+            <input type="submit" value="Submit" class="btn btn-default" />
+            <input type="reset" value="Reset" class="btn btn-default" />
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+}

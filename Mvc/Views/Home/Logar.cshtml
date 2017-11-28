@@ -1,0 +1,36 @@
+﻿@model Mvc.Models.mvcFuncionarioModel
+
+@{
+    ViewBag.Title = "Logar";
+}
+
+
+
+<div class="form-body" align ="center">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.Id)
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Login)
+            @Html.EditorFor(model => model.Login)
+            @Html.ValidationMessageFor(model => model.Login)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Senha)
+            @Html.PasswordFor(model => model.Senha)
+            @Html.ValidationMessageFor(model => model.Senha)
+        </div>
+        
+
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn button" />
+            <input type="reset" value="Reset" class="btn button" />
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+}

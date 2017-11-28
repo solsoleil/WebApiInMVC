@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Mvc.Models.MvcDepartamentoModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br/>
+
+<p>
+   <a href="@Url.Action("AddorEdit","Departamento")" class="btn btn-default"><i class="fa fa-plus"></i> Criar novo departamento</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                Ações
+            </th>
+        </tr>
+    </thead>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+           <a href="@Url.Action("AddorEdit", "Departamento", new { id = item.Id})" class="btn btn-default"><i class="fa fa-pencil"></i> Edit</a>
+            <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash"></i> Delete</a>
+        </td>
+    </tr>
+}
+
+
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            var sucessMessage = '@TempData["SuccessMessage"]';
+            if (sucessMessage != '')
+            {
+                alertify.success(sucessMessage);
+            }
+        });
+
+        function Delete(id)
+        {
+            alertify.confirm('Web Api CRUD Operations', 'Tem certeza que gostaria de deletar?', function () {
+                window.location.href = '@Url.Action("Delete","Departamento")/' + id;
+            }, null);
+        }
+    </script>
+    }
