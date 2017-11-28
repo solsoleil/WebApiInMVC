@@ -10,7 +10,7 @@ namespace WebApi.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "WebApi loader";
 
             return View();
         }
